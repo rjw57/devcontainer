@@ -7,6 +7,10 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
   # ad hoc builds, manually triggered
   workflow_dispatch:
+    inputs:
+      version:
+        default: "${{ github.ref }}"
+        type: string
   # triggered from release workflow
   workflow_call:
     inputs:
@@ -40,7 +44,7 @@ jobs:
             type=semver,pattern={{major}}
             type=semver,pattern={{version}},event=workflow_call,value=${{ inputs.version }}
             type=semver,pattern={{major}},event=workflow_call,value=${{ inputs.version }}
-            type=ref,event=workflow_dispatch
+            type=raw,event=workflow_dispatch
 
   build-and-push:
     name: "Build and push image"
