@@ -22,12 +22,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "lts/*"
-          cache: "npm"
-
       # This appears undocumented but is used by GitHub themselves.
       # See, e.g., https://github.com/actions/checkout/pull/1707
       - name: Configure git
