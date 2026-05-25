@@ -9,6 +9,7 @@ on:
 
 jobs:
   cleanup:
+    name: Delete untagged images
     runs-on: ubuntu-latest
     permissions:
       packages: write
