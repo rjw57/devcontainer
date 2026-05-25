@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://unpkg.com/release-it@20.0.1/schema/release-it.json
+git:
+  commitMessage: "chore(release): version ${version}"
+github:
+  release: true
+plugins:
+  "@release-it/conventional-changelog":
+    infile: "CHANGELOG.md"
+    header: "# Changelog"
+    preset:
+      name: "conventionalcommits"
+  "@release-it/bumper":
+    out:
+      - file: "**/README.md"
+        type: "text/markdown"
+        prefix: ":"

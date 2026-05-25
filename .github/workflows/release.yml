@@ -1,0 +1,46 @@
+# Make a new release for commits to the default branch.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-it-conventional-changelog-npm-package:
+        default: "@release-it/conventional-changelog@11.0.0"
+      release-it-bumper-npm-package:
+        default: "@release-it/bumper@7.0.5"
+      release-it-npm-package:
+        default: "release-it@20.0.1"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/checkout@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      # This appears undocumented but is used by GitHub themselves.
+      # See, e.g., https://github.com/actions/checkout/pull/1707
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run release-it
+        run: >-
+          npx --package=${{ inputs.release-it-conventional-changelog-npm-package }}
+          --package=${{ inputs.release-it-bumper-npm-package }}
+          --package=${{ inputs.release-it-npm-package }}
+          release-it
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
