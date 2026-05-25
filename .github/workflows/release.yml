@@ -11,12 +11,11 @@ on:
       release-it-npm-package:
         default: "release-it@20.0.1"
 
-permissions:
-  contents: write
-
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
