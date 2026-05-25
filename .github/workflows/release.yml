@@ -12,10 +12,12 @@ on:
         default: "release-it@20.0.1"
 
 jobs:
-  release:
+  release-it:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.release-it.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,15 +27,24 @@ jobs:
       # This appears undocumented but is used by GitHub themselves.
       # See, e.g., https://github.com/actions/checkout/pull/1707
       - name: Configure git
-        run: |
+        run: |-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run release-it
-        run: >-
-          npx --package=${{ inputs.release-it-conventional-changelog-npm-package }}
-          --package=${{ inputs.release-it-bumper-npm-package }}
-          --package=${{ inputs.release-it-npm-package }}
-          release-it
+        id: release-it
+        run: |-
+          npx --package=${{ inputs.release-it-conventional-changelog-npm-package }} \
+            --package=${{ inputs.release-it-bumper-npm-package }} \
+            --package=${{ inputs.release-it-npm-package }} \
+            release-it \
+            --ci
+          echo "version=$(cat .new-version)" >> "$GITHUB_OUTPUT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trigger-build:
+    needs: release-it
+    uses: ./.github/workflows/build-image.yml
+    with:
+      version: ${{ needs.release-it.outputs.version }}
