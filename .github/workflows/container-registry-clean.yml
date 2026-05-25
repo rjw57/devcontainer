@@ -1,0 +1,16 @@
+# Deletes any untagged container images.
+name: Container image clean up
+
+on:
+  schedule:
+    # 1:30AM, Sunday
+    - cron: "30 1 * * 0"
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: dataaxiom/ghcr-cleanup-action@v1

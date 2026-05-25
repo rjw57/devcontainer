@@ -1,0 +1,44 @@
+FROM quay.io/fedora/fedora:44
+
+LABEL org.opencontainers.image.description="Containerised development environment"
+LABEL org.opencontainers.image.licenses=MIT
+
+# Install any required system-level packages.
+RUN --mount=type=bind,source=install-dnf-packages.sh,target=/context/install-dnf-packages.sh /context/install-dnf-packages.sh
+
+# Create an unprivileged user. We intentionally do not grant sudo access.
+ARG USERNAME=devuser
+RUN useradd --create-home --home-dir /home/$USERNAME $USERNAME
+
+# From now on, act as the unprivileged user.
+WORKDIR /home/$USERNAME
+USER $USERNAME
+
+# Add known GitHub key fingerprints.
+RUN --mount=type=bind,source=github-known-hosts,target=/context/github-known-hosts mkdir ~/.ssh && cat /context/github-known-hosts >>~/.ssh/known_hosts
+
+# Git configuration.
+RUN --mount=type=bind,source=setup-git.sh,target=/context/setup-git.sh /context/setup-git.sh
+
+# Install custom bash config.
+RUN --mount=type=bind,source=setup-bash.sh,target=/context/setup-bash.sh /context/setup-bash.sh
+
+# Install custom neovim configuration and initialise LazyVim. (We'll still have a flurry of
+# tree-sitter and Mason stuff on first launch.)
+RUN --mount=type=bind,source=install-neovim.sh,target=/context/install-neovim.sh /context/install-neovim.sh
+
+# Install node and friends with secure defaults.
+# renovate: datasource=npm depName=npm
+ARG NPM_RELEASE=6.1.0
+# renovate: datasource=npm depName=@yarnpkg/cli
+ARG YARN_RELEASE=4.15.0
+# renovate: datasource=npm depName=pnpm
+ARG PNPM_RELEASE=11.3.0
+RUN --mount=type=bind,source=install-node.sh,target=/context/install-node.sh /context/install-node.sh
+
+# Install rust and friends.
+RUN rustup-init -y
+
+# Default to no entrypoint.
+ENTRYPOINT []
+CMD []
