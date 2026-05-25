@@ -1,8 +1,10 @@
 # yaml-language-server: $schema=https://unpkg.com/release-it@20.0.1/schema/release-it.json
 git:
   commitMessage: "chore(release): version ${version}"
+  tagName: "${version}"
 github:
   release: true
+  releaseName: Release ${version}
 plugins:
   "@release-it/conventional-changelog":
     infile: "CHANGELOG.md"
