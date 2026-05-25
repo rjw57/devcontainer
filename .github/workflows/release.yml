@@ -46,5 +46,10 @@ jobs:
   trigger-build:
     needs: release-it
     uses: ./.github/workflows/build-image.yml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
     with:
       version: ${{ needs.release-it.outputs.version }}
