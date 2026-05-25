@@ -1,3 +1,5 @@
+exclude = { glob = "CHANGELOG.md" }
+
 [[repos]]
 repo = "builtin"
 hooks = [
