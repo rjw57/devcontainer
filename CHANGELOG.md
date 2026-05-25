@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.5](https://github.com/rjw57/devcontainer/compare/0.0.4...0.0.5) (2026-05-25)
+
+### Bug Fixes
+
+* allow default for workflow_dispatch in build workflow ([7cebb03](https://github.com/rjw57/devcontainer/commit/7cebb037055a36e12bde1f247fc201115238ce87))
+* **prek:** exempt CHANGELOG from commit checking ([9267383](https://github.com/rjw57/devcontainer/commit/92673838d130aec9156ed098e6382911bbc4834b))
+* temporarily move away from automated releases ([3fddcc5](https://github.com/rjw57/devcontainer/commit/3fddcc556ff0b70b9007d2f47dcc05ab8578cbcf))
+
 ## [0.0.4](https://github.com/rjw57/devcontainer/compare/0.0.3...0.0.4) (2026-05-25)
 
 ## [0.0.3](https://github.com/rjw57/devcontainer/compare/0.0.2...0.0.3) (2026-05-25)
