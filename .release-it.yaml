@@ -16,6 +16,3 @@ plugins:
       - file: "**/README.md"
         type: "text/markdown"
         prefix: ":"
-      - file: ".new-version"
-        type: "text/plain"
-        consumeWholeFile: true

@@ -3,20 +3,7 @@ name: Build and push container image
 on:
   push:
     tags:
-      # Manual release tagging
       - "[0-9]+.[0-9]+.[0-9]+"
-  # ad hoc builds, manually triggered
-  workflow_dispatch:
-    inputs:
-      version:
-        default: "${{ github.ref }}"
-        type: string
-  # triggered from release workflow
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -42,9 +29,6 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}
-            type=semver,pattern={{version}},event=workflow_call,value=${{ inputs.version }}
-            type=semver,pattern={{major}},event=workflow_call,value=${{ inputs.version }}
-            type=raw,event=workflow_dispatch
 
   build-and-push:
     name: "Build and push image"

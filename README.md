@@ -25,10 +25,12 @@ podman build --security-opt=label=disable --tag localhost/devenv ./container
 
 ## Releasing
 
-For the moment, releases are performed manually by running the [Release action][release-action].
+For the moment, releases are performed manually by running `release-it` locally until we can work
+out a good way of triggering image builds:
 
-[release-action]: https://github.com/rjw57/devcontainer/actions/workflows/release.yml
-
-## CI Actions
-
-An *ad hoc* build can be performed by manually triggering the container image build and push action.
+```console
+npx --package=@release-it/conventional-changelog \
+    --package=@release-it/bumper \
+    --package=release-it \
+    release-it
+```
