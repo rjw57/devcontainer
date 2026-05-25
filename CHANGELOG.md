@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.0.4](https://github.com/rjw57/devcontainer/compare/0.0.3...0.0.4) (2026-05-25)
+
 ## [0.0.3](https://github.com/rjw57/devcontainer/compare/0.0.2...0.0.3) (2026-05-25)
 
 ### Bug Fixes
